@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shruti - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Logo and Navigation */
+        .logo {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            width: 50px;
+            height: 50px;
+            background: #2d3748;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            background: #667eea;
+        }
+
+        .logo svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .nav {
+            position: absolute;
+            top: 40px;
+            right: 60px;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-item {
+            color: #8892b0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after,
+        .nav-item.active::after {
+            width: 100%;
+        }
+
+        /* Home Page Styles */
+        .home-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 200px);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .home-text {
+            max-width: 900px;
+        }
+
+        .home-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #2d3748;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .company-link {
+            color: #667eea;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .company-link:hover {
+            color: #764ba2;
+        }
+
+        .company-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .company-link:hover::after {
+            width: 100%;
+        }
+
+        /* About Page Styles */
+        .about-content {
+            margin-top: 120px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .about-bio {
+            max-width: 800px;
+            line-height: 1.7;
+        }
+
+        .about-bio p {
+            color: #4a5568;
+            font-size: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .about-bio p:first-child {
+            margin-top: 0;
+        }
+
+        /* Other Pages Content */
+        .content {
+            margin-top: 120px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .greeting {
+            color: #667eea;
+            font-size: 18px;
+            margin-bottom: 20px;
+            animation: typewriter 1.5s ease forwards;
+        }
+
+        .title {
+            color: #5a67d8;
+            font-size: 24px;
+            margin-bottom: 40px;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .section {
+            display: none;
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .project-title {
+            font-size: 20px;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .project-desc {
+            color: #718096;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .resume-section {
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .resume-section h3 {
+            color: #2d3748;
+            margin: 30px 0 15px 0;
+            font-size: 20px;
+        }
+
+        .resume-section ul {
+            margin-left: 20px;
+        }
+
+        .resume-section li {
+            margin-bottom: 10px;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .blog-card {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .blog-date {
+            color: #667eea;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .blog-title {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .blog-excerpt {
+            color: #718096;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .blog-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .blog-tag {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            width: 80px;
+            height: 80px;
+            background: #667eea;
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            width: 60px;
+            height: 60px;
+            background: #764ba2;
+            border-radius: 30%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            width: 40px;
+            height: 40px;
+            background: #f093fb;
+            border-radius: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+            
+            .logo {
+                top: 20px;
+                left: 20px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .nav {
+                position: relative;
+                top: 0;
+                right: 0;
+                justify-content: center;
+                margin-bottom: 40px;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            
+            .nav-item {
+                font-size: 14px;
+            }
+            
+            .home-title {
+                font-size: 32px;
+            }
+            
+            .content, .about-content {
+                margin-top: 80px;
+            }
+            
+            .projects-grid, .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="floating-shapes">
+                <div class="shape"></div>
+                <div class="shape"></div>
+                <div class="shape"></div>
+            </div>
+            
+            <div class="logo" onclick="goHome()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-item" data-section="about">About</a>
+                <a href="#" class="nav-item" data-section="projects">Projects</a>
+                <a href="#" class="nav-item" data-section="resume">Resume</a>
+                <a href="#" class="nav-item" data-section="blog">Blog</a>
+            </nav>
+
+            <!-- Home Page -->
+            <div id="home" class="home-content">
+                <div class="home-text">
+                    <h1 class="home-title">Shruti is a product designer who is currently working at <a href="#" class="company-link">UC San Diego</a>.</h1>
+                </div>
+            </div>
+
+            <!-- About Page -->
+            <div id="about" class="section">
+                <div class="about-content">
+                    <div class="about-bio">
+                        <p>Hi, I'm a Product Designer and UX Researcher pursuing a double major in Computer Science and Business Economics at UC San Diego. My journey in design started with a curiosity about how technology can solve real-world problems and improve people's daily lives. Over time, I realized that the key to impactful design is understanding the people who use the products, listening to their needs, and translating those insights into intuitive, meaningful experiences.</p>
+                        
+                        <p>At UC San Diego, I have had the opportunity to combine technical and analytical skills from Computer Science with strategic thinking from Business Economics. This combination allows me to approach design challenges with both creativity and a practical perspective, balancing user needs with business objectives. I enjoy exploring every stage of the product lifecycle, from identifying user pain points and conducting research to ideating solutions, prototyping, and delivering polished, high-fidelity designs.</p>
+                        
+                        <p>Collaboration is at the heart of my work. I thrive when partnering with engineers, product managers, and researchers to iterate on ideas and ensure that solutions are not only visually compelling but also functional, accessible, and genuinely helpful to users. My toolkit includes Figma, FigJam, prototyping, and interaction design, which I use to experiment with micro-interactions, flows, and interfaces that enhance usability and create delight.</p>
+                        
+                        <p>Beyond the tools and techniques, I approach every project with curiosity, empathy, and a growth mindset. I am constantly seeking new ways to learn, improve, and understand the people who will use the products I design. My goal is to build tools and experiences that make a real difference, improve collaboration, and help users accomplish their goals efficiently and joyfully.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Page -->
+            <div id="projects" class="section">
+                <div class="content">
+                    <div class="greeting">My Work</div>
+                    <div class="title">Featured Projects</div>
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <div class="project-title">E-Commerce Platform</div>
+                            <div class="project-desc">A full-stack e-commerce solution with modern UI/UX, payment integration, and real-time inventory management.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                                <span class="tech-tag">Stripe</span>
+                            </div>
+                        </div>
+                        
+                        <div class="project-card">
+                            <div class="project-title">Task Management App</div>
+                            <div class="project-desc">Collaborative task management tool with drag-and-drop functionality, team features, and analytics dashboard.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">Vue.js</span>
+                                <span class="tech-tag">Express</span>
+                                <span class="tech-tag">PostgreSQL</span>
+                                <span class="tech-tag">Socket.io</span>
+                            </div>
+                        </div>
+                        
+                        <div class="project-card">
+                            <div class="project-title">Design System</div>
+                            <div class="project-desc">Comprehensive design system with reusable components, documentation, and automated testing for consistency.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">Figma</span>
+                                <span class="tech-tag">Storybook</span>
+                                <span class="tech-tag">TypeScript</span>
+                                <span class="tech-tag">Jest</span>
+                            </div>
+                        </div>
+                        
+                        <div class="project-card">
+                            <div class="project-title">Mobile Weather App</div>
+                            <div class="project-desc">Beautiful weather application with location-based forecasts, interactive maps, and personalized notifications.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">React Native</span>
+                                <span class="tech-tag">APIs</span>
+                                <span class="tech-tag">Redux</span>
+                                <span class="tech-tag">Charts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Page -->
+            <div id="resume" class="section">
+                <div class="content">
+                    <div class="greeting">Background</div>
+                    <div class="title">Experience & Skills</div>
+                    <div class="resume-section">
+                        <h3>Technical Skills</h3>
+                        <ul>
+                            <li><strong>Frontend:</strong> React, Vue.js, JavaScript, TypeScript, HTML5, CSS3, Sass</li>
+                            <li><strong>Backend:</strong> Node.js, Express, Python, Django, RESTful APIs</li>
+                            <li><strong>Database:</strong> MongoDB, PostgreSQL, MySQL, Firebase</li>
+                            <li><strong>Design:</strong> Figma, Adobe Creative Suite, Sketch, Prototyping</li>
+                            <li><strong>Tools:</strong> Git, Docker, AWS, Heroku, Webpack, Jest</li>
+                        </ul>
+
+                        <h3>Education</h3>
+                        <ul>
+                            <li>Bachelor of Science in Computer Science (In Progress)</li>
+                            <li>Relevant Coursework: Data Structures, Algorithms, Web Development, UI/UX Design</li>
+                        </ul>
+
+                        <h3>Experience</h3>
+                        <ul>
+                            <li><strong>Frontend Developer Intern</strong> - Tech Startup (Summer 2024)
+                                <br>Developed responsive web applications and collaborated on user interface improvements</li>
+                            <li><strong>Freelance Designer</strong> - Various Clients (2023-Present)
+                                <br>Created brand identities, web designs, and digital marketing materials</li>
+                        </ul>
+
+                        <h3>Interests</h3>
+                        <p>Beyond coding and design, I'm passionate about sustainable technology, contributing to open-source projects, and exploring the intersection of business strategy and user experience. I enjoy mentoring fellow students and participating in hackathons.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Page -->
+            <div id="blog" class="section">
+                <div class="content">
+                    <div class="greeting">Latest Thoughts</div>
+                    <div class="title">Blog Posts</div>
+                    <div class="blog-grid">
+                        <article class="blog-card">
+                            <div class="blog-date">August 15, 2025</div>
+                            <h3 class="blog-title">The Future of Web Development: Beyond Frameworks</h3>
+                            <p class="blog-excerpt">Exploring emerging trends in web development, from Web Components to the rise of native browser APIs that are changing how we build applications...</p>
+                            <div class="blog-tags">
+                                <span class="blog-tag">Web Development</span>
+                                <span class="blog-tag">Technology</span>
+                            </div>
+                        </article>
+                        
+                        <article class="blog-card">
+                            <div class="blog-date">August 8, 2025</div>
+                            <h3 class="blog-title">Design Systems That Scale: Lessons Learned</h3>
+                            <p class="blog-excerpt">After building design systems for multiple projects, here are the key principles and practices that make systems truly scalable and maintainable...</p>
+                            <div class="blog-tags">
+                                <span class="blog-tag">Design</span>
+                                <span class="blog-tag">UX/UI</span>
+                            </div>
+                        </article>
+                        
+                        <article class="blog-card">
+                            <div class="blog-date">July 28, 2025</div>
+                            <h3 class="blog-title">From Code to Business: Bridging the Technical Gap</h3>
+                            <p class="blog-excerpt">How understanding business requirements has transformed my approach to development and why every developer should think like a product owner...</p>
+                            <div class="blog-tags">
+                                <span class="blog-tag">Business</span>
+                                <span class="blog-tag">Career</span>
+                            </div>
+                        </article>
+                        
+                        <article class="blog-card">
+                            <div class="blog-date">July 20, 2025</div>
+                            <h3 class="blog-title">Accessibility First: Building for Everyone</h3>
+                            <p class="blog-excerpt">Why accessibility shouldn't be an afterthought and practical techniques for building inclusive web experiences from the ground up...</p>
+                            <div class="blog-tags">
+                                <span class="blog-tag">Accessibility</span>
+                                <span class="blog-tag">Web Standards</span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentView = 'home';
+        
+        // Navigation functionality
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.section');
+        const homeContent = document.getElementById('home');
+
+        function showHome() {
+            // Hide all sections
+            sections.forEach(section => section.classList.remove('active'));
+            homeContent.style.display = 'flex';
+            
+            // Remove active class from nav items
+            navItems.forEach(nav => nav.classList.remove('active'));
+            
+            currentView = 'home';
+        }
+
+        function showSection(sectionId) {
+            // Hide home
+            homeContent.style.display = 'none';
+            
+            // Hide all sections
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show target section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            currentView = sectionId;
+        }
+
+        function goHome() {
+            showHome();
+        }
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all nav items
+                navItems.forEach(nav => nav.classList.remove('active'));
+                
+                // Add active class to clicked nav item
+                item.classList.add('active');
+                
+                // Show corresponding section
+                showSection(item.dataset.section);
+            });
+        });
+
+        // Project card interactions
+        const projectCards = document.querySelectorAll('.project-card');
+        
+        projectCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            card.addEventListener('click', () => {
+                // Add a subtle click animation
+                card.style.transform = 'translateY(-8px) scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = 'translateY(-8px) scale(1.02)';
+                }, 150);
+            });
+        });
+
+        // Add parallax effect to floating shapes
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.5;
+                const xPos = (x - 0.5) * speed * 20;
+                const yPos = (y - 0.5) * speed * 20;
+                
+                shape.style.transform = `translate(${xPos}px, ${yPos}px) rotate(${xPos}deg)`;
+            });
+        });
+
+        // Add typing effect to greeting
+        function typeWriter(element, text, speed = 100) {
+            element.innerHTML = '';
+            let i = 0;
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            
+            type();
+        }
+
+        // Initialize typing effect
+        window.addEventListener('load', () => {
+            const greetings = document.querySelectorAll('.greeting');
+            greetings.forEach(greeting => {
+                const originalText = greeting.textContent;
+                typeWriter(greeting, originalText, 80);
+            });
+            
+            // Start on home page
+            showHome();
+        });
+
+        // Add smooth transitions for better UX
+        document.body.style.transition = 'all 0.3s ease';
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (currentView === 'home') return;
+            
+            const activeNav = document.querySelector('.nav-item.active');
+            const navItemsArray = Array.from(navItems);
+            const currentIndex = navItemsArray.indexOf(activeNav);
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const nextIndex = (currentIndex + 1) % navItemsArray.length;
+                navItemsArray[nextIndex].click();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prevIndex = (currentIndex - 1 + navItemsArray.length) % navItemsArray.length;
+                navItemsArray[prevIndex].click();
+            } else if (e.key === 'Escape') {
+                goHome();
+            }
+        });
+    </script>
+</body>
+</html>
