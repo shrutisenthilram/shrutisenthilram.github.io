@@ -377,6 +377,144 @@
             font-weight: 500;
         }
 
+        /* Footer Styles */
+        .footer {
+            margin-top: 80px;
+            padding: 60px 0 40px 0;
+            border-top: 1px solid rgba(102, 126, 234, 0.15);
+            position: relative;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 50px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: #2d3748;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #718096;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .social-link svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .footer-contact p {
+            color: #718096;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-contact a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact a:hover {
+            color: #764ba2;
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .footer-bottom-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-bottom-right {
+            display: flex;
+            gap: 25px;
+        }
+
+        .footer-bottom a {
+            color: #718096;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: #667eea;
+        }
+
+        .footer-logo {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
         .floating-shapes {
             position: absolute;
             top: 0;
@@ -470,6 +608,29 @@
             .projects-grid, .blog-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
+            }
+
+            .footer {
+                margin-top: 60px;
+                padding: 40px 0 30px 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .footer-bottom-left,
+            .footer-bottom-right {
+                justify-content: center;
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -654,150 +815,28 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <script>
-        let currentView = 'home';
-        
-        // Navigation functionality
-        const navItems = document.querySelectorAll('.nav-item');
-        const sections = document.querySelectorAll('.section');
-        const homeContent = document.getElementById('home');
-
-        function showHome() {
-            // Hide all sections
-            sections.forEach(section => section.classList.remove('active'));
-            homeContent.style.display = 'flex';
-            
-            // Remove active class from nav items
-            navItems.forEach(nav => nav.classList.remove('active'));
-            
-            currentView = 'home';
-        }
-
-        function showSection(sectionId) {
-            // Hide home
-            homeContent.style.display = 'none';
-            
-            // Hide all sections
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Show target section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            currentView = sectionId;
-        }
-
-        function goHome() {
-            showHome();
-        }
-
-        navItems.forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Remove active class from all nav items
-                navItems.forEach(nav => nav.classList.remove('active'));
-                
-                // Add active class to clicked nav item
-                item.classList.add('active');
-                
-                // Show corresponding section
-                showSection(item.dataset.section);
-            });
-        });
-
-        // Project card interactions
-        const projectCards = document.querySelectorAll('.project-card');
-        
-        projectCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-8px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0) scale(1)';
-            });
-            
-            card.addEventListener('click', () => {
-                // Add a subtle click animation
-                card.style.transform = 'translateY(-8px) scale(0.98)';
-                setTimeout(() => {
-                    card.style.transform = 'translateY(-8px) scale(1.02)';
-                }, 150);
-            });
-        });
-
-        // Add parallax effect to floating shapes
-        document.addEventListener('mousemove', (e) => {
-            const shapes = document.querySelectorAll('.shape');
-            const x = e.clientX / window.innerWidth;
-            const y = e.clientY / window.innerHeight;
-            
-            shapes.forEach((shape, index) => {
-                const speed = (index + 1) * 0.5;
-                const xPos = (x - 0.5) * speed * 20;
-                const yPos = (y - 0.5) * speed * 20;
-                
-                shape.style.transform = `translate(${xPos}px, ${yPos}px) rotate(${xPos}deg)`;
-            });
-        });
-
-        // Add typing effect to greeting
-        function typeWriter(element, text, speed = 100) {
-            element.innerHTML = '';
-            let i = 0;
-            
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            
-            type();
-        }
-
-        // Initialize typing effect
-        window.addEventListener('load', () => {
-            const greetings = document.querySelectorAll('.greeting');
-            greetings.forEach(greeting => {
-                const originalText = greeting.textContent;
-                typeWriter(greeting, originalText, 80);
-            });
-            
-            // Start on home page
-            showHome();
-        });
-
-        // Add smooth transitions for better UX
-        document.body.style.transition = 'all 0.3s ease';
-        
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (currentView === 'home') return;
-            
-            const activeNav = document.querySelector('.nav-item.active');
-            const navItemsArray = Array.from(navItems);
-            const currentIndex = navItemsArray.indexOf(activeNav);
-            
-            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                const nextIndex = (currentIndex + 1) % navItemsArray.length;
-                navItemsArray[nextIndex].click();
-            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                const prevIndex = (currentIndex - 1 + navItemsArray.length) % navItemsArray.length;
-                navItemsArray[prevIndex].click();
-            } else if (e.key === 'Escape') {
-                goHome();
-            }
-        });
-    </script>
-</body>
-</html>
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>Quick Links</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" onclick="showSection('about')">About Me</a></li>
+                            <li><a href="#" onclick="showSection('projects')">My Work</a></li>
+                            <li><a href="#" onclick="showSection('resume')">Experience</a></li>
+                            <li><a href="#" onclick="showSection('blog')">Blog</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-section">
+                        <h4>Connect</h4>
+                        <div class="social-links">
+                            <a href="#" class="social-link" aria-label="LinkedIn">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link" aria-label="GitHub">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302
